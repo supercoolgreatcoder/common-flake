@@ -3,7 +3,21 @@
 SUDO=${SUDO:=sudo}
 
 ${SUDO} apt update
-${SUDO} apt install -y --no-install-recommends curl sudo xz-utils
+${SUDO} apt install -y --no-install-recommends curl sudo xz-utils openssh-server
+
+# Configure SSH for root access
+${SUDO} sed -i 's/^#*PermitRootLogin.*/PermitRootLogin prohibit-password/' /etc/ssh/sshd_config
+${SUDO} sed -i 's/^#*PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+${SUDO} sed -i 's/^#*PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
+# Start SSH server (container-compatible)
+# Generate host keys if they don't exist
+${SUDO} ssh-keygen -A
+
+# Start SSH daemon directly (for container environments without systemd)
+if [ ! -d /run/sshd ]; then
+  ${SUDO} mkdir -p /run/sshd
+fi
+${SUDO} /usr/sbin/sshd
 
 # Create nixbld group and build users (required even for single-user when running as root)
 ${SUDO} groupadd -f nixbld
