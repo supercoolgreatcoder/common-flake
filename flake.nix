@@ -19,13 +19,24 @@
     };
 
     # Helper function to create package bundle
-    mkPackages = system: 
+    mkPackages = system:
       let
         pkgs = mkPkgs system;
       in
         pkgs.buildEnv {
           name = "nix-packages";
           paths = common.packages system pkgs;
+          pathsToLink = [ "/bin" "/share" ];
+        };
+
+    # Helper function to create dev-only package bundle
+    mkDevPackages = system:
+      let
+        pkgs = mkPkgs system;
+      in
+        pkgs.buildEnv {
+          name = "nix-dev-packages";
+          paths = common.devPackages system pkgs;
           pathsToLink = [ "/bin" "/share" ];
         };
   in
@@ -47,5 +58,10 @@
     # Install using: nix profile install ~/.config/nix
     packages.x86_64-linux.default = mkPackages "x86_64-linux";
     packages.aarch64-linux.default = mkPackages "aarch64-linux";
+
+    # Dev-only profile (k9s, git, mc)
+    # Install using: nix profile install ~/.config/nix#dev
+    packages.x86_64-linux.dev = mkDevPackages "x86_64-linux";
+    packages.aarch64-linux.dev = mkDevPackages "aarch64-linux";
   };
 }
