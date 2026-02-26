@@ -60,7 +60,6 @@ rec {
       devpod
       openvpn
       vpn-slice
-      ungoogled-chromium
 
       # IDEs
       code-cursor
@@ -99,6 +98,7 @@ rec {
       # System tools
       networkmanagerapplet
       # Desktop applications
+      ungoogled-chromium
       slack
 
       # Video and Wayland tools
