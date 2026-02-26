@@ -1,13 +1,21 @@
 # Common packages shared across macOS and Linux
-{
+rec {
   # List of unfree packages that need explicit permission
   unfreePackages = [
     "terraform"
     "claude-code"
+    "pycharm"
+    "rust-rover"
+    "clion"
+    "cursor"
+    "slack"
   ];
 
   # Dev-only packages (minimal set)
   devPackages = system: pkgs: with pkgs; [
+    wget
+    curl
+    jq
     k9s
     git
     mc
@@ -28,13 +36,10 @@
     azure-cli
     awscli
     vpn-slice
+    (python3.withPackages (python-pkgs: with python-pkgs; [
+      # Add more Python packages as needed
+    ]))
   ];
-
-  # Alamo profile packages (macOS) - dev + ffmpeg
-  darwinPackages = system: pkgs: with pkgs;
-    (devPackages system pkgs) ++ [
-      ffmpeg
-    ];
 
   # Desktop profile packages - dev + desktop tools
   desktopPackages = system: pkgs: with pkgs;
@@ -56,9 +61,59 @@
       devpod
       openvpn
 
-      (python3.withPackages (python-pkgs: with python-pkgs; [
-        # Add more Python packages as needed
-      ]))
-    ];
+      # IDEs
+      code-cursor
+      (jetbrains.pycharm.override {
+        vmopts = ''
+          -Xms128m
+          -Xmx2048m
+          -Dawt.toolkit.name=WLToolkit
+        '';
+      })
+      (jetbrains.rust-rover.override {
+        vmopts = ''
+          -Xms128m
+          -Xmx2048m
+          -Dawt.toolkit.name=WLToolkit
+        '';
+      })
+      (jetbrains.clion.override {
+        vmopts = ''
+          -Xms128m
+          -Xmx2048m
+          -Dawt.toolkit.name=WLToolkit
+        '';
+      })
+
+
+    ] ++ devPkgs;
+
+  # NixOS profile packages - desktop + additional NixOS-specific packages
+  nixosPackages = system: pkgs: with pkgs;
+    let
+      # Desktop packages reference
+      desktopPkgs = desktopPackages system pkgs;
+    in
+    [
+      # System tools
+      networkmanagerapplet
+      # Desktop applications
+      ungoogled-chromium
+      slack
+      waypipe
+
+      # Video and Wayland tools
+      mesa-demos
+      wev
+
+    ] ++ desktopPkgs;
+
+  # Alamo profile packages (macOS) - dev + ffmpeg
+  darwinPackages = system: pkgs:
+    (devPackages system pkgs) ++ (with pkgs; [
+      ffmpeg
+    ]);
+
+
 }
 

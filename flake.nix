@@ -18,17 +18,6 @@
       config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) common.unfreePackages;
     };
 
-    # Helper function to create package bundle
-    mkPackages = system:
-      let
-        pkgs = mkPkgs system;
-      in
-        pkgs.buildEnv {
-          name = "nix-packages";
-          paths = common.packages system pkgs;
-          pathsToLink = [ "/bin" "/share" ];
-        };
-
     # Helper function to create dev-only package bundle
     mkDevPackages = system:
       let
@@ -61,6 +50,17 @@
           paths = common.desktopPackages system pkgs;
           pathsToLink = [ "/bin" "/share" ];
         };
+
+    # Helper function to create nixos package bundle
+    mkNixosPackages = system:
+      let
+        pkgs = mkPkgs system;
+      in
+        pkgs.buildEnv {
+          name = "nix-nixos-packages";
+          paths = common.nixosPackages system pkgs;
+          pathsToLink = [ "/bin" "/share" ];
+        };
   in
   {
     # macOS configuration (darwin profile: dev + ffmpeg)
@@ -76,11 +76,6 @@
       }];
     };
 
-    # Linux packages
-    # Install using: nix profile install ~/.config/nix
-    packages.x86_64-linux.default = mkPackages "x86_64-linux";
-    packages.aarch64-linux.default = mkPackages "aarch64-linux";
-
     # Dev-only profile (k9s, git, mc, etc.)
     # Install using: nix profile install ~/.config/nix#dev
     packages.x86_64-linux.dev = mkDevPackages "x86_64-linux";
@@ -95,5 +90,10 @@
     # Install using: nix profile install ~/.config/nix#desktop
     packages.x86_64-linux.desktop = mkDesktopPackages "x86_64-linux";
     packages.aarch64-linux.desktop = mkDesktopPackages "aarch64-linux";
+
+    # NixOS profile (desktop + IDEs, browsers, and NixOS-specific tools)
+    # Install using: nix profile install ~/.config/nix#nixos
+    packages.x86_64-linux.nixos = mkNixosPackages "x86_64-linux";
+    packages.aarch64-linux.nixos = mkNixosPackages "aarch64-linux";
   };
 }
