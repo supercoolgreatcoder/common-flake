@@ -60,7 +60,7 @@ rec {
       devpod
       openvpn
       vpn-slice
-      waypipe
+      ungoogled-chromium
 
       # IDEs
       code-cursor
@@ -99,10 +99,10 @@ rec {
       # System tools
       networkmanagerapplet
       # Desktop applications
-      ungoogled-chromium
       slack
 
       # Video and Wayland tools
+      waypipe
       mesa-demos
       wev
     ] ++ desktopPkgs;
