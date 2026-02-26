@@ -43,6 +43,6 @@ chezmoi init https://supercoolgreatcoder:${GH_TOKEN}@github.com/supercoolgreatco
 chezmoi apply --exclude=encrypted
 
 nix profile remove chezmoi
-nix profile install nix profile install github:supercoolgreatcoder/common-flake#dev
+nix profile install github:supercoolgreatcoder/common-flake#dev --no-write-lock-file
 
 source ~/.profile

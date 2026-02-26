@@ -21,7 +21,7 @@
     htop
     kubectl
     mutagen
-    code-claude
+    claude-code
 
     # Python stuff
     uv
