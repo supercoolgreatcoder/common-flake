@@ -35,7 +35,6 @@ rec {
     uv
     azure-cli
     awscli
-    vpn-slice
     (python3.withPackages (python-pkgs: with python-pkgs; [
       # Add more Python packages as needed
     ]))
@@ -60,6 +59,8 @@ rec {
       docker
       devpod
       openvpn
+      vpn-slice
+      waypipe
 
       # IDEs
       code-cursor
@@ -100,17 +101,15 @@ rec {
       # Desktop applications
       ungoogled-chromium
       slack
-      waypipe
 
       # Video and Wayland tools
       mesa-demos
       wev
-
     ] ++ desktopPkgs;
 
-  # Alamo profile packages (macOS) - dev + ffmpeg
+  # Alamo profile packages (macOS) - desktop + ffmpeg
   darwinPackages = system: pkgs:
-    (devPackages system pkgs) ++ (with pkgs; [
+    (desktopPackages system pkgs) ++ (with pkgs; [
       ffmpeg
     ]);
 

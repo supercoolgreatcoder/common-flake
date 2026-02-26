@@ -63,7 +63,7 @@
         };
   in
   {
-    # macOS configuration (darwin profile: dev + ffmpeg)
+    # macOS configuration (darwin profile: desktop + ffmpeg)
     # Install using: darwin-rebuild switch --flake ~/.config/nix#darwin
     darwinConfigurations."darwin" = nix-darwin.lib.darwinSystem {
       modules = [{
@@ -80,11 +80,6 @@
     # Install using: nix profile install ~/.config/nix#dev
     packages.x86_64-linux.dev = mkDevPackages "x86_64-linux";
     packages.aarch64-linux.dev = mkDevPackages "aarch64-linux";
-
-    # Alamo/Darwin profile (dev + ffmpeg)
-    # Install using: nix profile install ~/.config/nix#darwin
-    packages.x86_64-linux.darwin = mkDarwinPackages "x86_64-linux";
-    packages.aarch64-linux.darwin = mkDarwinPackages "aarch64-linux";
 
     # Desktop profile (dev + wezterm, docker, terraform, etc.)
     # Install using: nix profile install ~/.config/nix#desktop
