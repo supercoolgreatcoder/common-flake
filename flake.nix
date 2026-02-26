@@ -39,13 +39,35 @@
           paths = common.devPackages system pkgs;
           pathsToLink = [ "/bin" "/share" ];
         };
+
+    # Helper function to create alamo/darwin package bundle (dev + ffmpeg)
+    mkDarwinPackages = system:
+      let
+        pkgs = mkPkgs system;
+      in
+        pkgs.buildEnv {
+          name = "nix-darwin-packages";
+          paths = common.darwinPackages system pkgs;
+          pathsToLink = [ "/bin" "/share" ];
+        };
+
+    # Helper function to create desktop package bundle
+    mkDesktopPackages = system:
+      let
+        pkgs = mkPkgs system;
+      in
+        pkgs.buildEnv {
+          name = "nix-desktop-packages";
+          paths = common.desktopPackages system pkgs;
+          pathsToLink = [ "/bin" "/share" ];
+        };
   in
   {
-    # macOS configuration
-    # Install using: darwin-rebuild switch --flake ~/.config/nix#alamo
-    darwinConfigurations."alamo" = nix-darwin.lib.darwinSystem {
+    # macOS configuration (darwin profile: dev + ffmpeg)
+    # Install using: darwin-rebuild switch --flake ~/.config/nix#darwin
+    darwinConfigurations."darwin" = nix-darwin.lib.darwinSystem {
       modules = [{
-        environment.systemPackages = common.packages "aarch64-darwin" (mkPkgs "aarch64-darwin");
+        environment.systemPackages = common.darwinPackages "aarch64-darwin" (mkPkgs "aarch64-darwin");
         nixpkgs.hostPlatform = "aarch64-darwin";
         nix.settings.experimental-features = "nix-command flakes";
         system.configurationRevision = self.rev or self.dirtyRev or null;
@@ -59,9 +81,19 @@
     packages.x86_64-linux.default = mkPackages "x86_64-linux";
     packages.aarch64-linux.default = mkPackages "aarch64-linux";
 
-    # Dev-only profile (k9s, git, mc)
+    # Dev-only profile (k9s, git, mc, etc.)
     # Install using: nix profile install ~/.config/nix#dev
     packages.x86_64-linux.dev = mkDevPackages "x86_64-linux";
     packages.aarch64-linux.dev = mkDevPackages "aarch64-linux";
+
+    # Alamo/Darwin profile (dev + ffmpeg)
+    # Install using: nix profile install ~/.config/nix#darwin
+    packages.x86_64-linux.darwin = mkDarwinPackages "x86_64-linux";
+    packages.aarch64-linux.darwin = mkDarwinPackages "aarch64-linux";
+
+    # Desktop profile (dev + wezterm, docker, terraform, etc.)
+    # Install using: nix profile install ~/.config/nix#desktop
+    packages.x86_64-linux.desktop = mkDesktopPackages "x86_64-linux";
+    packages.aarch64-linux.desktop = mkDesktopPackages "aarch64-linux";
   };
 }

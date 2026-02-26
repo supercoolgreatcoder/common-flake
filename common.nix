@@ -30,8 +30,14 @@
     vpn-slice
   ];
 
-  # Package list function - takes system and pkgs
-  packages = system: pkgs: with pkgs;
+  # Alamo profile packages (macOS) - dev + ffmpeg
+  darwinPackages = system: pkgs: with pkgs;
+    (devPackages system pkgs) ++ [
+      ffmpeg
+    ];
+
+  # Desktop profile packages - dev + desktop tools
+  desktopPackages = system: pkgs: with pkgs;
     let
       # macOS-specific packages
       darwinPackages = lib.optionals (lib.hasSuffix "darwin" system) [
@@ -42,7 +48,7 @@
       devPkgs = devPackages system pkgs;
     in
     [
-      # Development tools
+      # Desktop tools
       wezterm
       openconnect
       terraform
@@ -50,10 +56,9 @@
       devpod
       openvpn
 
-
       (python3.withPackages (python-pkgs: with python-pkgs; [
         # Add more Python packages as needed
       ]))
-    ] ++ darwinPackages ++ devPkgs;
+    ];
 }
 
