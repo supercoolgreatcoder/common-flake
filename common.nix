@@ -76,6 +76,9 @@ rec {
           -Dawt.toolkit.name=WLToolkit
         '';
       })
+    ] ++ pkgs.lib.optionals (pkgs.lib.hasSuffix "linux" system) [
+      # only linux packages
+      waypipe
     ]);
 
   # NixOS profile packages - desktop + additional NixOS-specific packages
