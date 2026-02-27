@@ -41,17 +41,8 @@ rec {
   ];
 
   # Desktop profile packages - dev + desktop tools
-  desktopPackages = system: pkgs: with pkgs;
-    let
-      # macOS-specific packages
-      darwinPackages = lib.optionals (lib.hasSuffix "darwin" system) [
-      # add Darwin specific packages
-      ];
-
-      # Dev packages reference
-      devPkgs = devPackages system pkgs;
-    in
-    [
+  desktopPackages = system: pkgs:
+    (devPackages system pkgs) ++ (with pkgs; [
       # Desktop tools
       wezterm
       openconnect
@@ -62,6 +53,7 @@ rec {
       vpn-slice
 
       # IDEs
+      # do not forget to add `keymap.windows.as.meta=true` to idea.properties if Meta key is recognized as Windows
       code-cursor
       (jetbrains.pycharm.override {
         vmopts = ''
@@ -84,9 +76,7 @@ rec {
           -Dawt.toolkit.name=WLToolkit
         '';
       })
-
-
-    ] ++ devPkgs;
+    ]);
 
   # NixOS profile packages - desktop + additional NixOS-specific packages
   nixosPackages = system: pkgs: with pkgs;
