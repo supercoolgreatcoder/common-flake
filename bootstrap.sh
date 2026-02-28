@@ -44,5 +44,7 @@ chezmoi apply --exclude=encrypted
 
 nix profile remove chezmoi
 nix profile install github:supercoolgreatcoder/common-flake#dev --no-write-lock-file --refresh
+# for upgrades:
+# nix profile upgrade dev --no-write-lock-file --refresh
 
 source ~/.profile
