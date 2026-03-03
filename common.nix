@@ -28,6 +28,7 @@ rec {
     age
     htop
     kubectl
+    teleport
     mutagen
     claude-code
 
