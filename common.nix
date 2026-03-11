@@ -28,8 +28,20 @@ rec {
     age
     htop
     kubectl
-    kubectl-node-shell
     kubectl-view-allocations
+    kubectl-node-shell
+    kubectl-view-secret
+    kubectl-neat
+    kubectl-tree
+    kubectl-images
+    kubectl-ktop
+    kubectl-df-pv
+    kubectl-explore
+    kubectl-graph
+    kubectl-doctor
+    kubectl-evict-pod
+    kubectl-ai
+    kubectl-klock
     teleport
     mutagen
     claude-code
