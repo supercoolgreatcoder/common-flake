@@ -28,6 +28,7 @@ rec {
     age
     htop
     kubectl
+    kubectl-node-shell
     teleport
     mutagen
     claude-code
