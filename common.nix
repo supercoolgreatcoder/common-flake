@@ -29,6 +29,7 @@ rec {
     htop
     kubectl
     kubectl-node-shell
+    kubectl-view-allocations
     teleport
     mutagen
     claude-code
