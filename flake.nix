@@ -64,8 +64,8 @@
   in
   {
     # macOS configuration (darwin profile: desktop + ffmpeg)
-    # Install using: darwin-rebuild switch --flake ~/.config/nix#darwin
-    darwinConfigurations."darwin" = nix-darwin.lib.darwinSystem {
+    # Install using: darwin-rebuild switch --flake ~/.config/nix#alamo
+    darwinConfigurations."alamo" = nix-darwin.lib.darwinSystem {
       modules = [{
         environment.systemPackages = common.darwinPackages "aarch64-darwin" (mkPkgs "aarch64-darwin");
         nixpkgs.hostPlatform = "aarch64-darwin";
