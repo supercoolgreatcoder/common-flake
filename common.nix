@@ -8,7 +8,7 @@ rec {
     "rust-rover"
     "clion"
     "cursor"
-    "cursor-agent"
+    "cursor-cli"
     "slack"
   ];
 
@@ -46,7 +46,7 @@ rec {
     teleport
     mutagen
     claude-code
-    cursor-agent
+    cursor-cli
 
     # Python stuff
     uv
