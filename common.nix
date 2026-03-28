@@ -47,6 +47,7 @@ rec {
     mutagen
     claude-code
     cursor-cli
+    codex
 
     # Python stuff
     uv
