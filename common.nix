@@ -110,6 +110,7 @@ rec {
       # Desktop applications
       ungoogled-chromium
       slack
+      vlc
 
       # Video and Wayland tools
       waypipe
