@@ -29,6 +29,7 @@ rec {
     age
     htop
     kubectl
+    fluxcd
     kubectl-view-allocations
     kubectl-node-shell
     kubectl-view-secret
