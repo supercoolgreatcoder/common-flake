@@ -17,6 +17,7 @@ rec {
     wget
     curl
     jq
+    dnsutils
     k9s
     git
     mc
