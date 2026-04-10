@@ -112,6 +112,7 @@ rec {
       networkmanagerapplet
       # Desktop applications
       ungoogled-chromium
+      joplin-desktop
       slack
       vlc
 
