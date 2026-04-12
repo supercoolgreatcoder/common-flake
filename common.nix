@@ -120,6 +120,12 @@ rec {
       waypipe
       mesa-demos
       wev
+      # C/C++ development
+      gcc
+      gnumake
+      cmake
+      gdb
+      binutils
     ] ++ desktopPkgs;
 
   # Alamo profile packages (macOS) - desktop + ffmpeg
